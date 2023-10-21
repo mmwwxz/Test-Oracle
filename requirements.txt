@@ -1,0 +1,7 @@
+Django==4.2.2
+pillow==9.5.0
+python-decouple==3.8
+psycopg2-binary==2.9.6
+django-phonenumber-field==7.1.0
+phonenumbers==8.13.14
+django-smtp-ssl==1.0

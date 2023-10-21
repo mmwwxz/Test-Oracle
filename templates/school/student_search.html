@@ -1,0 +1,58 @@
+{% extends 'school/base.html' %}
+{% load static %}
+
+{% block css %}
+ <!-- Custom styles for this template -->
+<link href="{% static 'vendor/css/student-search.css' %}" rel="stylesheet">
+<style>
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .card-deck {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .card-deck .card {
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Результаты поиска</h1>
+    <div class="row justify-content-center">
+        {% for student in students %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <img src="{{ student.photo.url }}" class="img-fluid" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="{% url 'student_detail' student.id %}">ФИО: {{ student.full_name }}</a>
+                    </h4>
+                    <h5>Год рождения: {{ student.date_of_birth }}</h5>
+                    <h5>Класс: {{ student.grade }}</h5>
+                    <p class="card-text">Адрес проживания: {{ student.address }}</p>
+                </div>
+                {% if user.is_authenticated %}
+                <div class="btn-group" role="group">
+                    <form method="POST" action="{% url 'student_delete' student.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">{{ _('Удалить') }}</button>
+                    </form>
+                    <form method="POST" action="{% url 'student_update' student.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">{{ _('Редактировать') }}</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
